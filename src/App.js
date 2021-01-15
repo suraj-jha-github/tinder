@@ -1,35 +1,32 @@
-import React, { useState } from "react";
-import "./App.css";
-import Chat from "./Chat";
-import Sidebar from "./Sidebar";
-import {BrowserRouter as Router,Switch,Route} from 'react-router-dom'
-import Login from "./Login";
-import { useStateValue } from "./StateProvider";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from "react";
+import Header from "./Header";
+import TinderCards from "./TinderCards";
+import SwipeButtons from "./SwipeButtons";
+import Chats from "./Chats";
+import ChatScreen from './ChatScreen'
 
 function App() {
-  const[{user},dispatch]=useStateValue("")
   return (
     <div className="app">
-      {!user ?(
-        <Login />
-      ):(
-        <div className="app__body">
-        <Router>
-            <Sidebar />
-          <Switch>
-            <Route path="/rooms/:roomId">
-             
-              <Chat />
-            </Route>
-            <Route path="/">
-              <Chat />
-            </Route>
-          </Switch>
-        </Router>
-      </div>
+      <Router>
+        <Switch>
+          <Route path="/chat/:person">
+            <Header backButton="/chat" />
+            <ChatScreen />
+          </Route>
+          <Route path="/chat">
+            <Header backButton="/" />
+            <Chats />
+          </Route>
 
-      )}
-      
+          <Route path="/">
+            <Header />
+            <TinderCards />
+            <SwipeButtons />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
